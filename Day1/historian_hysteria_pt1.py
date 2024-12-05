@@ -19,10 +19,11 @@ def main():
         left_list.append(int(nums[0]))
         right_list.append(int(nums[1]))
 
-
+    # Sorts both lists
     left_list.sort()
     right_list.sort()
 
+    # Iterates trough each sorted list adding up the difference between each number pair
     for i in range(len(left_list)):
         dist = abs(left_list[i] - right_list[i])
         dist_sum += dist
