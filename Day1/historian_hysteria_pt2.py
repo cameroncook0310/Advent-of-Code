@@ -18,11 +18,31 @@ def main():
         left_list.append(int(nums[0]))
         right_list.append(int(nums[1]))
 
-    for lnum in left_list:
-        for rnum in right_list:
-            if lnum == rnum:
-                sim_score += lnum
-    
+    occurrance_map = {}
+
+    for i in range(len(left_list)):
+        left_num = left_list[i]
+        right_num = right_list[i]
+
+        if left_num in occurrance_map.keys():
+            occ_counts = occurrance_map[left_num]
+            occurrance_map[left_num] = (occ_counts[0] + 1, occ_counts[1])
+
+        else:
+            occurrance_map[left_num] = (1, 0)
+
+        if right_num in occurrance_map.keys():
+            occ_counts = occurrance_map[right_num]
+            occurrance_map[right_num] = (occ_counts[0], occ_counts[1] + 1)
+
+        else:
+            occurrance_map[right_num] = (0, 1)
+
+
+    for num, occs in occurrance_map.items():
+        l_occ, r_occ = occs
+        sim_score += l_occ * (num * r_occ)
+
     print(sim_score)
 
 if __name__ == "__main__":
