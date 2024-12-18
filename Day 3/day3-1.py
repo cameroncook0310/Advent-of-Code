@@ -1,20 +1,22 @@
 #!/usr/bin/env python3
 
+import re
+
+def mul(num1, num2):
+    return int(num1) * int(num2)
 
 def main():
     input = open("./day 3/input.txt", "r")
     input_text = input.read()
 
-    l_point = 0
-    r_point = 0
+    valid_muls = re.findall("mul\(\d+,\d+\)", input_text)
 
-    input_length = len(input_text)
+    muls_sum = 0
 
-    while l_point < len(input_text):
-        print(input_text[l_point])
-
-        l_point += 1
-
+    for curr_mul in valid_muls:
+        muls_sum += eval(curr_mul)
+    
+    print(muls_sum)
 
 if __name__ == "__main__":
     main()
