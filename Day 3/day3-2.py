@@ -9,12 +9,18 @@ def main():
     input = open("./day 3/input.txt", "r")
     input_text = input.read()
 
-    valid_muls = re.findall("don't\(\)|do\(\)|mul\(\d+,\d+\)",input_text)
+    valid_funcs = re.findall("don't\(\)|do\(\)|mul\(\d+,\d+\)",input_text)
 
     muls_sum = 0
-
-    for curr_mul in valid_muls:
-        muls_sum += eval(curr_mul)
+    
+    mul_enabled = True
+    for curr_func in valid_funcs:
+        if curr_func == "do()":
+            mul_enabled = True
+        elif curr_func == "don't()":
+            mul_enabled = False
+        elif mul_enabled:
+            muls_sum += eval(curr_func)
     
     print(muls_sum)
 
