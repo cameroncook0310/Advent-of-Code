@@ -1,42 +1,32 @@
 #!/usr/bin/env python3
 
-
-### INCOMPLETE
-
 # Takes a single level as input and returns True or False based on
 # whether the level is safe or not
 def is_safe(level):
-    level = level.strip()
-    level = level.split()
 
     prev_num = level[0] 
 
-    error_count = 0
+    safe_distance = True
+    mono_seq = True
     
     is_initially_positive_difference = (int(level[1]) - int(level[0])) > 0
 
-    first_i = True
-
     for num in level[1:]:
-
         diff = int(num) - int(prev_num)
         abs_diff = abs(diff)
 
         is_positive_difference = diff > 0
 
-        if is_positive_difference != is_initially_positive_difference or diff == 0 or abs_diff > 3 or abs_diff < 1:
-            error_count += 1
+        if is_positive_difference != is_initially_positive_difference or diff == 0:
+            mono_seq = False
 
-
-
-            continue
-
+        if abs_diff > 3 or abs_diff < 1:
+            safe_distance = False
+        
         prev_num = num
-
-        first_i = False
         
 
-    return (error_count < 2)
+    return (safe_distance and mono_seq)
 
 
 def main():
@@ -45,9 +35,21 @@ def main():
     safe_count = 0
 
     for level in input:
+        level = level.strip()
+        level = level.split()
+        safe_level_found = False
         if is_safe(level):
+            safe_level_found = True
+        else:
+            for i in range(len(level)):
+                sub_level = level[:i] + level[i+1:]
+                if is_safe(sub_level):
+                    safe_level_found = True
+                    break
+        
+        if safe_level_found:
             safe_count += 1
-
+        
     print(safe_count)
 
 if __name__ == "__main__":
